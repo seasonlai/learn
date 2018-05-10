@@ -27,7 +27,7 @@ public class LoginController {
     private ILoginService loginService;
 
     //post登录
-    @ApiOperation(value = "登录",notes = "通过shiro安全登录",httpMethod = "post")
+    @ApiOperation(value = "登录",notes = "通过shiro安全登录")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username",required = true,paramType = "String",value = "用户名"),
             @ApiImplicitParam(name = "password",required = true,paramType = "String",value = "密码")
@@ -57,7 +57,7 @@ public class LoginController {
     }
 
     //数据初始化
-    @ApiOperation(value = "添加user",httpMethod = "post")
+    @ApiOperation(value = "添加user")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username",value = "用户名"),
             @ApiImplicitParam(name = "password",value = "密码")
@@ -73,7 +73,7 @@ public class LoginController {
             @ApiImplicitParam(name = "userId",value = "用户id"),
             @ApiImplicitParam(name = "roleName",value = "角色名称")
     })
-    @ApiOperation(value = "添加角色",httpMethod = "post")
+    @ApiOperation(value = "添加角色")
     @RequestMapping(value = "/addRole")
     public String addRole(@RequestBody Map<String,Object> map){
         Role role = loginService.addRole(map);

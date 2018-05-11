@@ -1,5 +1,6 @@
 package com.season.controller;
 
+import com.season.domain.BaseResult;
 import com.season.domain.Role;
 import com.season.domain.User;
 import com.season.service.ILoginService;
@@ -20,23 +21,43 @@ import java.util.Map;
 
 @Api("登录")
 @RestController
-@RequestMapping("/user")
+//@RequestMapping("/user")
 public class LoginController {
 
     @Autowired
     private ILoginService loginService;
 
+    @ApiOperation("登录界面跳转")
+    @RequestMapping(value = "/login",method = RequestMethod.GET)
+    public Object login(){
+        return BaseResult.unKnow("未登录");
+    }
+
+    @ApiOperation("首页")
+    @RequestMapping(value = "/index")
+    public Object index(){
+        return new BaseResult(1,"登录成功");
+    }
+
+    //登出
+    @ApiOperation(value = "登出",httpMethod = "GET")
+    @RequestMapping(value = "/logout")
+    public String logout(){
+        return "logout";
+    }
+
     //post登录
-    @ApiOperation(value = "登录",notes = "通过shiro安全登录")
+    @ApiOperation(value = "登录",httpMethod = "POST",notes = "通过shiro安全登录")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "username",required = true,paramType = "String",value = "用户名"),
-            @ApiImplicitParam(name = "password",required = true,paramType = "String",value = "密码")
+            @ApiImplicitParam(name = "username",required = true,dataType = "String",paramType = "String",value = "用户名"),
+            @ApiImplicitParam(name = "password",required = true,dataType = "String",paramType = "String",value = "密码")
     })
     @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public String login(@RequestParam("username") String userName, @RequestParam("password")String pwd){
+    public String login(@RequestBody Map<String,String> map){
         //添加用户认证信息
         Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(userName, pwd);
+        UsernamePasswordToken usernamePasswordToken
+                = new UsernamePasswordToken(map.get("username"), map.get("password"));
         //进行验证，这里可以捕获异常，然后返回对应信息
         try {
             subject.login(usernamePasswordToken);
@@ -52,15 +73,15 @@ public class LoginController {
 
     //错误页面展示
     @RequestMapping(value = "/error",method = RequestMethod.POST)
-    public String error(){
-        return "error ok!";
+    public Object error(){
+        return new BaseResult(-1,"操作失败");
     }
 
     //数据初始化
-    @ApiOperation(value = "添加user")
+    @ApiOperation(value = "添加user",httpMethod = "POST")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "username",value = "用户名"),
-            @ApiImplicitParam(name = "password",value = "密码")
+            @ApiImplicitParam(name = "username",value = "用户名",dataType="String"),
+            @ApiImplicitParam(name = "password",value = "密码",dataType="String")
     })
     @RequestMapping(value = "/addUser",method = RequestMethod.POST)
     public String addUser(@RequestBody Map<String,Object> map){
@@ -70,10 +91,10 @@ public class LoginController {
 
     //角色初始化
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "userId",value = "用户id"),
-            @ApiImplicitParam(name = "roleName",value = "角色名称")
+            @ApiImplicitParam(name = "userId",value = "用户id",dataType="String"),
+            @ApiImplicitParam(name = "roleName",value = "角色名称",dataType="String")
     })
-    @ApiOperation(value = "添加角色")
+    @ApiOperation(value = "添加角色",httpMethod = "POST")
     @RequestMapping(value = "/addRole")
     public String addRole(@RequestBody Map<String,Object> map){
         Role role = loginService.addRole(map);
@@ -81,7 +102,7 @@ public class LoginController {
     }
 
     //注解的使用
-    @ApiOperation(value = "权限测试")
+    @ApiOperation(value = "权限测试",httpMethod = "GET")
     @RequiresRoles("admin")
     @RequiresPermissions("create")
     @RequestMapping(value = "/create")

@@ -21,6 +21,7 @@ public class Swagger2 {
 	@Bean
 	public Docket createRestApi() {
 		return new Docket(DocumentationType.SWAGGER_2)
+				.groupName("dubbo消费者")
 				.apiInfo(apiInfo())
 				.select()
 				.apis(RequestHandlerSelectors.basePackage("com.season.controller"))

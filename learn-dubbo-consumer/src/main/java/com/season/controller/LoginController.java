@@ -31,6 +31,7 @@ public class LoginController {
     @ApiOperation("登录界面跳转")
     @RequestMapping(value = "/login",method = RequestMethod.GET)
     public Object login(){
+
         return BaseResult.unKnow("未登录");
     }
 

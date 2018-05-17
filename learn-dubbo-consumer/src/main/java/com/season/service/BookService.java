@@ -45,7 +45,7 @@ public class BookService {
         return writerRepository.save(writer);
     }
 
-    @Cacheable(value = "writer",key = "name")
+    @Cacheable(value = "writer",key = "#name")
     public Writer findWriterByName(String name){
         return writerRepository.findWriterByName(name);
     }

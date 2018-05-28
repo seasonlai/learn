@@ -10,6 +10,7 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +58,13 @@ public class MyShiroRealm extends AuthorizingRealm {
         } else {
             //这里验证authenticationToken和simpleAuthenticationInfo的信息
             SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(name, user.getPassword().toString(), getName());
+
             return simpleAuthenticationInfo;
         }
+    }
+
+    public static void main(String... args){
+        Md5Hash hash = new Md5Hash("123456");
+        System.out.println(hash.toString());
     }
 }

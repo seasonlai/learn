@@ -37,9 +37,9 @@ public class LearnDubboApplication {
 ////				Thread.sleep(1000);
 ////			}
 ////
-////			logger.info("Task1 result: {}", doTask1.get());
 ////			logger.info("Task2 result: {}", doTask2.get());
-//
+//			logger.info("Task1 result: {}", doTask1.get());
+////
 //            Future<String> task3 = asyncTask.doTask3();
 //            String r = task3.get();
 //            logger.info("Task3 result: {}", r);

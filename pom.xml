@@ -13,6 +13,7 @@
     <modules>
         <module>learn-dubbo-consumer</module>
         <module>learn-dubbo-server</module>
+        <module>learn-video</module>
     </modules>
 
 
